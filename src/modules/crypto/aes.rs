@@ -76,34 +76,22 @@ impl Module for AESEncrypt {
         match self.mode {
             EncryptMode::Cbc => {
                 if key.len() == 16 && iv.len() == 16 {
-                    block_encrypt_with_iv::<Aes128CbcEnc, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_encrypt_with_iv::<Aes128CbcEnc, Pkcs7>(input, &key, &iv)
                 } else if key.len() == 24 && iv.len() == 16 {
-                    block_encrypt_with_iv::<Aes192CbcEnc, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_encrypt_with_iv::<Aes192CbcEnc, Pkcs7>(input, &key, &iv)
                 } else if key.len() == 32 && iv.len() == 16 {
-                    block_encrypt_with_iv::<Aes256CbcEnc, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_encrypt_with_iv::<Aes256CbcEnc, Pkcs7>(input, &key, &iv)
                 } else {
                     Err(anyhow!("Invalid key or iv length"))
                 }
             }
             EncryptMode::Ecb => {
                 if key.len() == 16 {
-                    block_encrypt::<Aes128EcbEnc, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_encrypt::<Aes128EcbEnc, Pkcs7>(input, &key)
                 } else if key.len() == 24 {
-                    block_encrypt::<Aes192EcbEnc, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_encrypt::<Aes192EcbEnc, Pkcs7>(input, &key)
                 } else if key.len() == 32 {
-                    block_encrypt::<Aes256EcbEnc, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_encrypt::<Aes256EcbEnc, Pkcs7>(input, &key)
                 } else {
                     Err(anyhow!("Invalid key or iv length"))
                 }
@@ -162,34 +150,22 @@ impl Module for AESDecrypt {
         match self.mode {
             EncryptMode::Cbc => {
                 if key.len() == 16 && iv.len() == 16 {
-                    block_decrypt_with_iv::<Aes128CbcDec, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_decrypt_with_iv::<Aes128CbcDec, Pkcs7>(input, &key, &iv)
                 } else if key.len() == 24 && iv.len() == 16 {
-                    block_decrypt_with_iv::<Aes192CbcDec, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_decrypt_with_iv::<Aes192CbcDec, Pkcs7>(input, &key, &iv)
                 } else if key.len() == 32 && iv.len() == 16 {
-                    block_decrypt_with_iv::<Aes256CbcDec, Pkcs7>(
-                        input,
-                        &self.key.try_to_vec()?,
-                        &self.iv.try_to_vec()?,
-                    )
+                    block_decrypt_with_iv::<Aes256CbcDec, Pkcs7>(input, &key, &iv)
                 } else {
                     Err(anyhow!("Invalid key or iv length"))
                 }
             }
             EncryptMode::Ecb => {
                 if key.len() == 16 {
-                    block_decrypt::<Aes128EcbDec, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_decrypt::<Aes128EcbDec, Pkcs7>(input, &key)
                 } else if key.len() == 24 {
-                    block_decrypt::<Aes192EcbDec, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_decrypt::<Aes192EcbDec, Pkcs7>(input, &key)
                 } else if key.len() == 32 {
-                    block_decrypt::<Aes256EcbDec, Pkcs7>(input, &self.key.try_to_vec()?)
+                    block_decrypt::<Aes256EcbDec, Pkcs7>(input, &key)
                 } else {
                     Err(anyhow!("Invalid key or iv length"))
                 }
